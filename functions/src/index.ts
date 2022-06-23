@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import {auth, logger, https} from "firebase-functions";
 import {initializeApp, firestore} from "firebase-admin";
 import {

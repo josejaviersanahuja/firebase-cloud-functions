@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable require-jsdoc */
 import {createTransport, SentMessageInfo, Transporter} from "nodemailer";
 import {config} from "firebase-functions";
 
+/**
+ * Clase que permite el envío de emails
+ */
 export class Email {
   mailTransport: Transporter<SentMessageInfo>;
   sendEmail: (
@@ -12,6 +14,10 @@ export class Email {
     subject: string,
     bodyHTML: string,
   ) => Promise<any>;
+
+  /**
+   * Configura el mailTransporter con el email que usa firebase
+   */
   constructor() {
     const userEmail = config().configuration.email;
     const passwordEmail = config().configuration.password;

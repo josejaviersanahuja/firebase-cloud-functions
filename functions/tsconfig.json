@@ -10,8 +10,9 @@
   },
   "compileOnSave": true,
   "include": [
-    "src",
-    "src/componentes",
-    "src/componentes/usuarios"
+    "src/**/*.ts",
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
