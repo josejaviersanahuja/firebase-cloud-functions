@@ -1,13 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable require-jsdoc */
-import {messaging} from "firebase-admin";
+import admin from "firebase-admin";
 
+/** Clase con los métodos para gestionar las Notificaciones */
 export class Notificaciones {
+  /**
+ * Registramos el token a un tópico
+ * @param {string} token generado por los workers en el frontend
+ * @return {Promise<MessagingTopicManagementResponse>}
+ */
   registrarTokenAlTopico(token: string) {
     const registrationTokens = [token];
 
-    return messaging()
-        .subscribeToTopic(registrationTokens, "NuevosPosts")
+    return admin.messaging()
+        .subscribeToTopic(registrationTokens, "NuevoPlaylist")
         .then(() => {
           return console.log("Se adiciona correctamente al topico el token");
         })
@@ -16,8 +21,21 @@ export class Notificaciones {
         });
   }
 
-  enviarNotificacion(titulo: any, descripcion: any, topico: any, tipo: any) {
-    const topicoEnviar = topico === null ? "NuevosPosts" : topico;
+  /**
+   * Ya documentaremos
+   * @param {string} titulo
+   * @param {string} descripcion
+   * @param {string | null} topico
+   * @param {any} tipo
+   * @return {Promise<string>}
+   */
+  enviarNotificacion(
+      titulo: string,
+      descripcion: string,
+      topico: string | null,
+      tipo: any
+  ) {
+    const topicoEnviar = topico === null ? "NuevoPlaylist" : topico;
 
     const mensaje = {
       data: {
@@ -28,20 +46,28 @@ export class Notificaciones {
       topic: topicoEnviar,
     };
 
-    return messaging()
+    return admin.messaging()
         .send(mensaje)
         .then(() => {
           return console.log(
-              "Mensaje enviado correctamente al topico NuevosPosts"
+              "Mensaje enviado correctamente al topico NuevoPlaylist"
           );
         })
         .catch((error) => {
           console.error(
-              `Error enviando mensaje al topico NuevosPosts => ${error}`
+              `Error enviando mensaje al topico NuevoPlaylist => ${error}`
           );
         });
   }
 
+  /**
+   * Luego
+   * @param {any} titulo
+   * @param {any} descripcion
+   * @param {any} tipo
+   * @param {any} token
+   * @return {Promise<string>}
+   */
   enviarNotificacionAToken(
       titulo: any,
       descripcion: any,
@@ -59,7 +85,7 @@ export class Notificaciones {
       token: token,
     };
 
-    return messaging()
+    return admin.messaging()
         .send(mensaje)
         .then(() => {
           return console.log("Mensaje enviado correctamente al token");
@@ -69,5 +95,3 @@ export class Notificaciones {
         });
   }
 }
-
-exports.Notificaciones = Notificaciones;

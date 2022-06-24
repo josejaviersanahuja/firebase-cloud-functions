@@ -1,8 +1,8 @@
 /* eslint-disable require-jsdoc */
 import fetch from "node-fetch";
-import {config} from "firebase-functions";
+// import {config} from "firebase-functions";
 
-const claveapihubspot = config().configuration.claveapihubspot;
+const claveapihubspot = "clave";// config().configuration.claveapihubspot;
 
 export class HubSpotHelper {
   crearUsuario(

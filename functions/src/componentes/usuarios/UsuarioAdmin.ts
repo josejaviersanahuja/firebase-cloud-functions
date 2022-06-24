@@ -5,7 +5,7 @@ import {
   plantillaEmailBienvenida,
   plantillaEmailDespedida,
 } from "../utilidad/PlantillasEmail";
-import {firestore} from "firebase-admin";
+import admin from "firebase-admin";
 
 export class UsuarioAdmin {
   registrarEmailsUsuario(
@@ -13,7 +13,7 @@ export class UsuarioAdmin {
       email: string | undefined
   ) {
     console.log("se registra email");
-    return firestore()
+    return admin.firestore()
         .collection("emailsusuarios")
         .add({
           nombres: nombres,

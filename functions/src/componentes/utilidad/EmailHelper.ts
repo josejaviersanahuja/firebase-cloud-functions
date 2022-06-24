@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {createTransport, SentMessageInfo, Transporter} from "nodemailer";
-import {config} from "firebase-functions";
+// import {config} from "firebase-functions";
 
 /**
  * Clase que permite el envío de emails
@@ -19,8 +19,8 @@ export class Email {
    * Configura el mailTransporter con el email que usa firebase
    */
   constructor() {
-    const userEmail = config().configuration.email;
-    const passwordEmail = config().configuration.password;
+    const userEmail = "zitrojj"; // config().configuration.email;
+    const passwordEmail = ""; // config().configuration.password;
     this.mailTransport = createTransport({
       host: "smtp.gmail.com",
       port: 465,
