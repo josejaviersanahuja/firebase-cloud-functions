@@ -1,4 +1,4 @@
-import {firestore} from "firebase-functions";
+import {firestore, storage} from "firebase-functions";
 import admin from "firebase-admin";
 
 import {config} from
@@ -9,6 +9,7 @@ import {
 import {
   creacionNuevoPlaylistController,
 } from "./componentes/playlists/PlaylistsController";
+import {validarImagenController} from "./componentes/storage/ImagenController";
 
 admin.initializeApp({
   credential: admin.credential.cert(config),
@@ -18,21 +19,18 @@ admin.initializeApp({
 admin.firestore().settings({timestampsInSnapshots: true});
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = https.onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send(
-//       `Hello from Firebase! Plante: ${process.env.PLANET},
-//       Población: ${process.env.AUDIENCE}`
-//   );
-// });
 
+// funciones de firestos
 export const registrarTopico = firestore.document("/tokens/{id}")
     .onCreate(creacionTokenController);
 
 export const enviarNotificacion = firestore.document("/playlists/{plid}")
     .onCreate(creacionNuevoPlaylistController);
 
+// funciones de storage
+export const validarImagen = storage
+    .object()
+    .onFinalize(validarImagenController);
 /* AUTH FUNCTIONS
 import {
   usuarioCreacionController,
@@ -49,3 +47,12 @@ export const eliminacionUsuario = auth.user()
 export const creacionUsuarioCRM = auth.user()
     .onCreate(creacionUsuarioCRMController);
 */
+
+// FUNCION HTTPS
+// export const helloWorld = https.onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+//   response.send(
+//       `Hello from Firebase! Plante: ${process.env.PLANET},
+//       Población: ${process.env.AUDIENCE}`
+//   );
+// });
