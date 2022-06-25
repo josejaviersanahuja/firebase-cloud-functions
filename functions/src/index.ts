@@ -1,4 +1,4 @@
-import {logger, https, firestore} from "firebase-functions";
+import {firestore} from "firebase-functions";
 import admin from "firebase-admin";
 
 import {config} from
@@ -19,13 +19,13 @@ admin.firestore().settings({timestampsInSnapshots: true});
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-export const helloWorld = https.onRequest((request, response) => {
-  logger.info("Hello logs!", {structuredData: true});
-  response.send(
-      `Hello from Firebase! Plante: ${process.env.PLANET}, 
-      Población: ${process.env.AUDIENCE}`
-  );
-});
+// export const helloWorld = https.onRequest((request, response) => {
+//   logger.info("Hello logs!", {structuredData: true});
+//   response.send(
+//       `Hello from Firebase! Plante: ${process.env.PLANET},
+//       Población: ${process.env.AUDIENCE}`
+//   );
+// });
 
 export const registrarTopico = firestore.document("/tokens/{id}")
     .onCreate(creacionTokenController);

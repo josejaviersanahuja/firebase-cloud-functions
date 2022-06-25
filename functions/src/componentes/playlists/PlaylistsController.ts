@@ -13,6 +13,7 @@ export const creacionNuevoPlaylistController = (
   notificaciones.enviarNotificacion(
       playlist.name,
       playlist.description,
+      playlist.uid,
       null,
       ""
   );

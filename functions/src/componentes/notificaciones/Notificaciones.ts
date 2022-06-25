@@ -25,6 +25,7 @@ export class Notificaciones {
    * Ya documentaremos
    * @param {string} titulo
    * @param {string} descripcion
+   * @param {string} uid
    * @param {string | null} topico
    * @param {any} tipo
    * @return {Promise<string>}
@@ -32,6 +33,7 @@ export class Notificaciones {
   enviarNotificacion(
       titulo: string,
       descripcion: string,
+      uid: string,
       topico: string | null,
       tipo: any
   ) {
@@ -39,9 +41,10 @@ export class Notificaciones {
 
     const mensaje = {
       data: {
-        titulo: titulo,
-        descripcion: descripcion,
-        tipo: tipo,
+        titulo,
+        descripcion,
+        uid,
+        tipo,
       },
       topic: topicoEnviar,
     };
