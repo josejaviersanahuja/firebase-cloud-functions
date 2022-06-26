@@ -25,11 +25,11 @@ const validarImagenHelper = (objImage: storage.ObjectMetadata) => {
   const rutaArchivo = objImage.name || "";
   const nombreArchivo = basename(rutaArchivo);
   // const plid = nombreArchivo.split(".")[0];
-  const bucket = admin.storage().bucket("nombre_bucket");
+  const bucket = admin.storage().bucket();
   const tmpRutaArchivo = join(os.tmpdir(), nombreArchivo);
 
   const cliente = new vision.ImageAnnotatorClient();
-  console.log("after vision es inicializado");
+  console.log(tmpRutaArchivo, "tras cliente de vision");
 
   return bucket
       .file(rutaArchivo)
