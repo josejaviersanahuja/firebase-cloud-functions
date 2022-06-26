@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import admin from "firebase-admin";
 import {storage} from "firebase-functions/v1";
-import path from "path";
+import {basename, join} from "path";
 import os from "os";
 import vision from "@google-cloud/vision";
 
@@ -23,11 +23,12 @@ export const validarImagenController = (
 
 const validarImagenHelper = (objImage: storage.ObjectMetadata) => {
   const rutaArchivo = objImage.name || "";
-  const nombreArchivo = path.basename(rutaArchivo);
-  const plid = path.basename(rutaArchivo).split(".")[0];
+  const nombreArchivo = basename(rutaArchivo);
+  console.log(nombreArchivo);
+  const plid = nombreArchivo.split(".")[0];
   console.log(plid, "es realmente el plid?");
   const bucket = admin.storage().bucket();
-  const tmpRutaArchivo = path.join(os.tmpdir(), nombreArchivo);
+  const tmpRutaArchivo = join(os.tmpdir(), nombreArchivo);
 
   const cliente = new vision.ImageAnnotatorClient();
 
