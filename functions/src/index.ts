@@ -1,4 +1,4 @@
-import {firestore, storage} from "firebase-functions";
+import {firestore, https, logger} from "firebase-functions";
 import admin from "firebase-admin";
 
 import {config} from
@@ -9,10 +9,13 @@ import {
 import {
   creacionNuevoPlaylistController,
 } from "./componentes/playlists/PlaylistsController";
-import {validarImagenController} from "./componentes/storage/ImagenController";
+// import {
+//  validarImagenController
+// } from "./componentes/storage/ImagenController";
 
 admin.initializeApp({
   credential: admin.credential.cert(config),
+  storageBucket: "playlists-tutoriales.appspot.com",
 });
 
 
@@ -28,9 +31,9 @@ export const enviarNotificacion = firestore.document("/playlists/{plid}")
     .onCreate(creacionNuevoPlaylistController);
 
 // funciones de storage
-export const validarImagen = storage
-    .object()
-    .onFinalize(validarImagenController);
+// export const validarImagen = storage
+//     .object()
+//     .onFinalize(validarImagenController);
 /* AUTH FUNCTIONS
 import {
   usuarioCreacionController,
@@ -48,11 +51,11 @@ export const creacionUsuarioCRM = auth.user()
     .onCreate(creacionUsuarioCRMController);
 */
 
-// FUNCION HTTPS
-// export const helloWorld = https.onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send(
-//       `Hello from Firebase! Plante: ${process.env.PLANET},
-//       Población: ${process.env.AUDIENCE}`
-//   );
-// });
+
+export const helloWorld = https.onRequest((request, response) => {
+  logger.info("Hello logs!", {structuredData: true});
+  response.send(
+      `Hello from Firebase! Plante: ${process.env.PLANET},
+      Población: ${process.env.AUDIENCE}`
+  );
+});

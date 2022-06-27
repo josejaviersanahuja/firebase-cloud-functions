@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import admin from "firebase-admin";
 import {storage} from "firebase-functions/v1";
-import {basename, join} from "path";
+import * as path from "path";
 import * as os from "os";
 import vision from "@google-cloud/vision";
 
@@ -23,10 +23,10 @@ export const validarImagenController = (
 
 const validarImagenHelper = (objImage: storage.ObjectMetadata) => {
   const rutaArchivo = objImage.name || "";
-  const nombreArchivo = basename(rutaArchivo);
+  const nombreArchivo = path.basename(rutaArchivo);
   // const plid = nombreArchivo.split(".")[0];
   const bucket = admin.storage().bucket();
-  const tmpRutaArchivo = join(os.tmpdir(), nombreArchivo);
+  const tmpRutaArchivo = path.join(os.tmpdir(), nombreArchivo);
 
   const cliente = new vision.ImageAnnotatorClient();
   console.log(tmpRutaArchivo, "tras cliente de vision");
@@ -42,7 +42,7 @@ const validarImagenHelper = (objImage: storage.ObjectMetadata) => {
         return cliente.safeSearchDetection(tmpRutaArchivo);
       })
       .then((resultado) => {
-        console.log(resultado, "resultado de la api");
+        console.log("resultado de la api");
 
         const adulto: any = resultado[0].safeSearchAnnotation?.adult;
         const violence: any = resultado[0].safeSearchAnnotation?.violence;
@@ -55,10 +55,12 @@ const validarImagenHelper = (objImage: storage.ObjectMetadata) => {
       })
       .then((resp) => {
         if (resp) {
-          return resp;
+          console.log("Imagen está OK");
+        } else {
+          console.log(
+              "DEBES BORRAR LA IMAGEN Y UPDATE PLID PARA BORRAR IMGURL"
+          );
         }
-        console.log("DEBES BORRAR LA IMAGEN Y UPDATE PLID PARA BORRAR IMGURL");
-        return false;
       });
 };
 
@@ -68,6 +70,8 @@ const validarImagenHelper = (objImage: storage.ObjectMetadata) => {
  * @return {boolean} si es adecuada la imagen o no
  */
 function esAdecuada(resultado: any) {
+  console.log(resultado);
+
   return (
     resultado !== "POSSIBLE" &&
     resultado !== "LIKELY" &&
